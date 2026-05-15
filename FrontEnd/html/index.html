@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Store</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <h1>Products</h1>
+
+  <!-- Add Product Form -->
+  <div id="product-form">
+    <input type="text"  id="name"  placeholder="Name" />
+    <input type="text"  id="type"  placeholder="Type" />
+    <input type="number" id="price" placeholder="Price" />
+    <input type="text"  id="image" placeholder="Image URL" />
+    <button onclick="handleCreate()">Add Product</button>
+  </div>
+
+  <!-- Products List -->
+  <div id="products-list"></div>
+
+  <script src="../js/app.js"></script>
+  <script src="../js/productos.js"></script>
+</body>
+</html>
