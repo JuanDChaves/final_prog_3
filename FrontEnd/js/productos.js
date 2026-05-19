@@ -1,3 +1,24 @@
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("cartBtn").addEventListener("click", goToCart);
+    document.getElementById("productBtn").addEventListener("click", goToProduct);
+    document.getElementById("indexBtn").addEventListener("click", goToIndex);
+    localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
+});
+
+function goToCart(e) {
+  console.log("go to cart")
+  window.location.href = "carrito.html"
+}
+
+function goToProduct(e) {
+  console.log("go to product")
+  window.location.href = "detalle.html"
+}
+
+function goToIndex(e) {
+  console.log("go to index")
+  window.location.href = "index.html"
+}
 // Load and display all products
 const loadProducts = async () => {
     console.log("esto se ejecuta?")
