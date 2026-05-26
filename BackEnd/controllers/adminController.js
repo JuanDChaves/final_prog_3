@@ -3,6 +3,9 @@ const bcrypt = require('bcrypt');
 
 const loginAdmin = async (req, res) => {
   try {
+    if(req.session.admin) {
+      return res.status(400).json({ error: "Ya hay una sesion activa" });
+    }
     const { username, password } = req.body;
 
     const admin = await Admin.findOne({ where: { username } });

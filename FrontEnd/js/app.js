@@ -1,6 +1,28 @@
 const BASE_URL = 'http://localhost:3000';
 
-const api = {
+const api = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+  headers: { 'Content-Type': 'application/json' }
+});
+
+export default {
+  login: (username, password) => api.post('/admins/login', { username, password }),
+
+  getProducts: () => api.get('/products'),
+
+  getProduct: (id) => api.get(`/products/${id}`),
+
+  createProduct: (data) => api.post('/products', data),
+
+  updateProduct: (id, data) => api.put(`/products/${id}`, data),
+
+  deleteProduct: (id) => api.delete(`/products/${id}`),
+}
+
+/*
+
+const api2 = {
 
   login: async (username, password) => {
     const res = await fetch(`${BASE_URL}/admins/login`, {
@@ -48,3 +70,5 @@ const api = {
     return res.json();
   }
 };
+
+*/
