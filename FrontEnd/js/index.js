@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("ingresarBtn").addEventListener("click", ingresar);
     document.getElementById("adminLoginBtn").addEventListener("click", goToAdminLogin);
-    localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
+    //localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
 });
 
 function ingresar (e) {

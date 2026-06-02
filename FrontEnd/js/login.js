@@ -17,7 +17,7 @@ async function login(e) {
   try {
     const response = await api.login(username, password);
     console.log(response.data)
-    //window.location.href = "dashboard.html"
+    window.location.href = "dashboard.html"
     username = "";
     password = "";
   } catch(e) {
