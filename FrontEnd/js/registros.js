@@ -1,10 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("dashboardBtn").addEventListener("click", goToDashboard);
-    document.getElementById("indexBtn").addEventListener("click", goToIndex);
+    document.getElementById("goBackBtn").addEventListener("click", goBack);
+    document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
     localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
 });
 
-function goToDashboard(e) {
+function goBack(e) {
   e.preventDefault();
   console.log("to to dashboard")
   window.location.href = "dashboard.html"

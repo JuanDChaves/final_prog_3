@@ -1,16 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("productosBtn").addEventListener("click", goToProductos);
-    document.getElementById("indexBtn").addEventListener("click", goToIndex);
-    localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
+    document.getElementById("goBackBtn").addEventListener("click", goBack);
+    document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
+    document.getElementById("adminLoginBtn").addEventListener("click", goToLogin);
+    //localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
 });
 
-function goToProductos(e) {
+function goBack(e) {
   e.preventDefault();
   console.log("to to productos")
   window.location.href = "productos.html"
 }
+function goToLogin(e) {
+  e.preventDefault();
+  window.location.href = "login.html";
+}
+
 function goToIndex(e) {
   e.preventDefault();
-  console.log("go to index")
-  window.location.href = "index.html"
+  window.location.href = "index.html";
 }

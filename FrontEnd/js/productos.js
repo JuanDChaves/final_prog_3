@@ -1,27 +1,35 @@
 document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("cartBtn").addEventListener("click", goToCart);
-    document.getElementById("productBtn").addEventListener("click", goToProduct);
-    document.getElementById("indexBtn").addEventListener("click", goToIndex);
-    localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
+    document.getElementById("goToCartBtn").addEventListener("click", goToCart);
+    document.getElementById("goToProductBtn").addEventListener("click", goToProduct);
+    document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
+    document.getElementById("adminLoginBtn").addEventListener("click", goToLogin);
+    //localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
 });
 
 function goToCart(e) {
+  e.preventDefault();
   console.log("go to cart")
   window.location.href = "carrito.html"
 }
 
 function goToProduct(e) {
+  e.preventDefault();
   console.log("go to product")
   window.location.href = "detalle.html"
 }
 
 function goToIndex(e) {
+  e.preventDefault();
   console.log("go to index")
   window.location.href = "index.html"
 }
+
+function goToLogin(e) {
+  e.preventDefault();
+  window.location.href = "login.html";
+}
 // Load and display all products
 const loadProducts = async () => {
-    console.log("esto se ejecuta?")
   const products = await api.getProducts();
   const container = document.getElementById('products-list');
 

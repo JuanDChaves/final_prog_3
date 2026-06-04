@@ -19,7 +19,7 @@
       <div class="d-flex align-items-center gap-2">
         <ul class="nav justify-content-center gap-3 pt-2 pb-2 fs-5">
           <li class="nav-item">
-            <button class="nav-link text-bg-primary" id="goToIndexBtn">Home</button>
+            <button class="nav-link text-bg-primary" id="goToIndexBtn">Salir</button>
           </li>
         </ul>
         <button class="btn btn-outline-light btn-sm" id="themeToggle" onclick="toggleTheme()" title="Cambiar tema">
@@ -72,14 +72,26 @@
 
   <nav class="navbar navbar-dark bg-primary">
     <div class="container">
-      <div class="col"></div>
       <span class="navbar-text text-white col text-center">Chaves Inc. UTN 2026</span>
-      <div class="col d-flex justify-content-end">
-        <button class="btn btn-outline-light btn-sm" id="adminBtn">Admin</button>
-      </div>
     </div>
   </nav>
-    
+
+  <!-- Success / Error modal -->
+  <div class="modal fade" id="alertModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header" id="alertModalHeader">
+          <h5 class="modal-title" id="alertModalTitle"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body" id="alertModalBody"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+      
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script>
