@@ -1,47 +1,74 @@
+
+const html = document.documentElement;
+const divErrorMessage = document.createElement("div");
+
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("ingresarBtn").addEventListener("click", ingresar);
     document.getElementById("adminLoginBtn").addEventListener("click", goToAdminLogin);
-    //localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
+    document.getElementById("themeToggle").addEventListener("click", toggleTheme)
+    localStorage.clear();
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme);
 });
 
 function ingresar (e) {
     e.preventDefault();
+    if(!ValidarInput()) return;
     const input = document.getElementById("username");
-    //if(!ValidarInput()) return;
     try{
         localStorage.setItem("nombre", input.value.trim());
-        console.log(input.value.trim())
         input.value = "";
         window.location.href = "productos.html";
     } catch(error){
+        console.log("show modal");
         alert("Error...")
     }
 }
 
-function goToAdminLogin (e) {
-    console.log("go to login admin")
-    window.location.href = "login.html";
-}
-
 function ValidarInput(){
-    const input = document.getElementById('userName');
+    const input = document.getElementById('username');
     const nombre = input.value.trim();
-    let valid = true;
+
+    input.classList.remove("is-invalid");
+    divErrorMessage.textContent = "";
 
     if (!nombre){
         input.classList.add("is-invalid");
-        divMensajeDeError.className = "invalid-feedback";
-        divMensajeDeError.textContent = "Para continuar debe cargar su nombre";
-        input.insertAdjacentElement("afterend", divMensajeDeError);
-        valid = false;
+        divErrorMessage.className = "invalid-feedback";
+        divErrorMessage.textContent = "Para continuar debes cargar tu nombre";
+        input.insertAdjacentElement("afterend", divErrorMessage);
+        return false;
+    }
+    if (nombre.length < 3 || nombre.length > 20) {
+        input.classList.add("is-invalid");
+        divErrorMessage.className = "invalid-feedback";
+        divErrorMessage.textContent = "El nombre debe tener entre 3 y 20 caracteres";
+        input.insertAdjacentElement("afterend", divErrorMessage);
+        return false;
     }
     if (/\d/.test(nombre)){
         // /\d/.test - para validar que no contenga numeros
         input.classList.add("is-invalid");
-        divMensajeDeError.className = "invalid-feedback";
-        divMensajeDeError.textContent = "El nombre no debe contener numeros";
-        input.insertAdjacentElement("afterend", divMensajeDeError);
-        valid = false;
+        divErrorMessage.className = "invalid-feedback";
+        divErrorMessage.textContent = "El nombre no debe contener números";
+        input.insertAdjacentElement("afterend", divErrorMessage);
+        return false;
     }
-    return valid;
+    return true;
+}
+
+function goToAdminLogin (e) {
+    window.location.href = "login.html";
+}
+
+function toggleTheme() {
+  const current = html.getAttribute('data-bs-theme');
+  applyTheme(current === 'light' ? 'dark' : 'light');
+}
+
+function applyTheme(theme) { 
+  html.setAttribute('data-bs-theme', theme);
+  localStorage.setItem('theme', theme);
+  document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
 }

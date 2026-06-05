@@ -6,7 +6,7 @@
   <title>Productos | Tienda de Música</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
   <link rel="icon" href="../img/logo.png">
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="../style.css">
 </head>
 <body class="d-flex flex-column vh-100">
   <nav class="navbar navbar-dark bg-primary">
@@ -27,7 +27,7 @@
             <button class="nav-link text-bg-primary" id="goToIndexBtn">Salir</button>
           </li>
         </ul>
-        <button class="btn btn-outline-light btn-sm" id="themeToggle" onclick="toggleTheme()" title="Cambiar tema">
+        <button class="btn btn-outline-light btn-sm" id="themeToggle" title="Cambiar tema">
           🌙
         </button>
       </div>
@@ -35,20 +35,22 @@
   </nav>
 
   <div class="bg-primary-subtle flex-grow-1 overflow-auto">
-    <div class="container bg-light h-100 py-4">
-    <!-- Add Product Form -->
-      <div id="product-form">
-        <input type="text"  id="name"  placeholder="Name" />
-        <input type="text"  id="type"  placeholder="Type" />
-        <input type="number" id="price" placeholder="Price" />
-        <input type="text"  id="image" placeholder="Image URL" />
-        <button onclick="handleCreate()">Add Product</button>
-      </div>
-
+    <div class="container bg-body h-100 py-4">
       <button type="button" id="goToProductBtn">Detalle</button>
+ <!-- Filter tabs -->
+    <div class="d-flex gap-2 mb-4">
+      <button class="btn btn-primary btn-sm px-4" id="filterAll" onclick="filterProducts('all', this)">Todos</button>
+      <button class="btn btn-outline-primary btn-sm px-4" id="filterInstruments" onclick="filterProducts('instrumento', this)">Instrumentos</button>
+      <button class="btn btn-outline-primary btn-sm px-4" id="filterBooks" onclick="filterProducts('libro', this)">Libros</button>
+    </div>
 
-  <!-- Products List -->
-      <div id="products-list"></div>
+    <!-- Product grid -->
+    <div id="productGrid" class="row g-3"></div>
+
+    <!-- Pagination -->
+    <nav class="mt-4 d-flex justify-content-center" id="paginationNav">
+      <ul class="pagination" id="pagination"></ul>
+    </nav>
     </div>
   </div>
     
@@ -62,8 +64,9 @@
       </div>
     </div>
   </nav>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <script src="../js/productos.js"></script>
+    <script type="module" src="../js/productos.js"></script>
 </body>
 </html>
 

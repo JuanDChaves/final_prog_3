@@ -1,10 +1,16 @@
+const html = document.documentElement;
+
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("surveyBtn").addEventListener("click", goToSurvey);
     document.getElementById("goBackBtn").addEventListener("click", goBack);
     document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
     document.getElementById("adminLoginBtn").addEventListener("click", goToLogin);
-    localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
-});
+    document.getElementById("themeToggle").addEventListener("click", toggleTheme)
+    //localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    applyTheme(savedTheme)
+  });
 
 function goBack(e) {
   e.preventDefault();
@@ -26,4 +32,15 @@ function goToLogin(e) {
 function goToIndex(e) {
   e.preventDefault();
   window.location.href = "index.html";
+}
+
+function toggleTheme() {
+  const current = html.getAttribute('data-bs-theme');
+  applyTheme(current === 'light' ? 'dark' : 'light');
+}
+
+function applyTheme(theme) { 
+  html.setAttribute('data-bs-theme', theme);
+  localStorage.setItem('theme', theme);
+  document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
 }

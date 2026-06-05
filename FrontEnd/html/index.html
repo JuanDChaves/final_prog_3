@@ -17,7 +17,7 @@
       </span>
 
       <div class="d-flex align-items-center gap-2">
-        <button class="btn btn-outline-light btn-sm" id="themeToggle" onclick="toggleTheme()" title="Cambiar tema">
+        <button class="btn btn-outline-light btn-sm" id="themeToggle" title="Cambiar tema">
           🌙
         </button>
       </div>
@@ -25,16 +25,33 @@
   </nav>
 
   <div class="bg-primary-subtle flex-grow-1 overflow-auto">
-    <div class="container bg-light h-100 py-4">
-      <form action="">
-        <label for="username">Tu nombre: </label>
-        <input type="text" id="username" required>
-        <button type="submit" id="ingresarBtn">Ingresar</button>
-      </form>
+  <div class="container bg-body h-100 py-4 py-md-5">
 
-
+    <div class="text-center mb-5">
+      <h1 class="display-5 fw-bold">🎵 Bienvenido a la Tienda de Música</h1>
+      <p class="text-muted fs-5">Explorá nuestra colección de instrumentos y libros</p>
     </div>
+
+    <div class="d-flex justify-content-center">
+      <div class="card shadow-sm border w-100" style="max-width: 420px;">
+        <div class="card-body p-4">
+          <h5 class="fw-medium mb-1">¿Cómo te llamás?</h5>
+          <p class="text-muted small mb-3">Ingresá tu nombre para continuar</p>
+          <form id="indexForm">
+            <div class="mb-3">
+              <label class="form-label small fw-medium" for="username">Tu nombre:</label>
+              <input type="text" class="form-control" id="username" placeholder="Ej: Juan" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100" id="ingresarBtn">
+              Ingresar →
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
    <nav class="navbar navbar-dark bg-primary">
     <div class="container">
@@ -45,22 +62,6 @@
       </div>
     </div>
   </nav>
-
-  <!-- Success / Error modal -->
-<div class="modal fade" id="alertModal" tabindex="-1">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header" id="alertModalHeader">
-        <h5 class="modal-title" id="alertModalTitle"></h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-      </div>
-      <div class="modal-body" id="alertModalBody"></div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="../js/index.js"></script>
