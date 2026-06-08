@@ -7,6 +7,16 @@ const SaleItem = sequelize.define('SaleItem', {
     primaryKey: true,
     autoIncrement: true
   },
+  id_sale: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'Sale', key: 'id' }
+  },
+  id_producto: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'Product', key: 'id' }
+  },
   quantity: {
     type: DataTypes.INTEGER,
     allowNull: false,
