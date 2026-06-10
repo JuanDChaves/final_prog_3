@@ -18,6 +18,9 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+
 app.use(cors({
     origin: ['http://127.0.0.1:5500', 'http://localhost:5500'],
     credentials: true
@@ -37,6 +40,7 @@ app.use('/carts', cartsRouter);
 app.use('/sales', salesRouter);
 app.use('/sale-items', saleItemsRouter);
 app.use('/surveys', surveysRouter);
+app.use('/images', express.static('public/images'));
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 

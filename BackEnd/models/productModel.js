@@ -23,6 +23,22 @@ const Product = sequelize.define('Product', {
     type: DataTypes.DOUBLE,
     allowNull: false
   },
+  description: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  height: {
+    type: DataTypes.DOUBLE,
+    allowNull: false
+  },
+  width: {
+    type: DataTypes.DOUBLE,
+    allowNull: false
+  },
+  weight: {
+    type: DataTypes.DOUBLE,
+    allowNull: false
+  },
   image: {
     type: DataTypes.STRING 
   }

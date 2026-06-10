@@ -39,13 +39,18 @@
 
       <div class="d-flex justify-content-between mb-4">
         <div class="d-flex gap-2">
-            <button class="btn btn-primary btn-sm px-4 active-tab" id="filterAll" onclick="filterProducts('all', this)">Todos</button>
-            <button class="btn btn-outline-primary btn-sm px-4" id="filterElectronics" onclick="filterProducts('electronics', this)">Electrónica</button>
-            <button class="btn btn-outline-primary btn-sm px-4" id="filterClothing" onclick="filterProducts('clothing', this)">Ropa</button>
+          <button class="btn btn-primary btn-sm px-4" id="filterAll" onclick="filterProducts('all', this)">Todos</button>
+          <button class="btn btn-outline-primary btn-sm px-4" id="filterInstruments" onclick="filterProducts('instrumento', this)">Instrumentos</button>
+          <button class="btn btn-outline-primary btn-sm px-4" id="filterBooks" onclick="filterProducts('libro', this)">Libros</button>
         </div>
         <button class="btn btn-success btn-sm px-4" id="addProductBtn">Alta</button>
       </div>
+
       <div id="productList" class="d-flex flex-column gap-3"></div>
+
+      <nav class="mt-4 d-flex justify-content-center">
+        <ul class="pagination" id="pagination"></ul>
+      </nav>
     </div>
   </div>
 
@@ -72,88 +77,8 @@
     </div>
   </div>
       
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-  <script src="../js/dashboard.js"></script>
-  <script>
-    const products = [
-      { id: 1, name: 'Laptop Pro 15"', type: 'electronics', isActive: true,  price: 1299.99, image: 'https://placehold.co/64x64/0d6efd/white?text=💻' },
-      { id: 2, name: 'Auriculares BT',  type: 'electronics', isActive: true,  price: 89.99,   image: 'https://placehold.co/64x64/0d6efd/white?text=🎧' },
-      { id: 3, name: 'Smartwatch X2',   type: 'electronics', isActive: false, price: 199.99,  image: 'https://placehold.co/64x64/0d6efd/white?text=⌚' },
-      { id: 4, name: 'Remera Básica',   type: 'clothing',    isActive: true,  price: 19.99,   image: 'https://placehold.co/64x64/6610f2/white?text=👕' },
-      { id: 5, name: 'Zapatillas Run',  type: 'clothing',    isActive: true,  price: 74.99,   image: 'https://placehold.co/64x64/6610f2/white?text=👟' },
-      { id: 6, name: 'Campera Invierno',type: 'clothing',    isActive: false, price: 129.99,  image: 'https://placehold.co/64x64/6610f2/white?text=🧥' },
-    ];
-
-    let currentFilter = 'all';
-
-    function filterProducts(type, btn) {
-      currentFilter = type;
-      document.querySelectorAll('.d-flex.gap-2.mb-4 .btn').forEach(b => {
-        b.classList.remove('btn-primary', 'active-tab');
-        b.classList.add('btn-outline-primary');
-      });
-      btn.classList.remove('btn-outline-primary');
-      btn.classList.add('btn-primary', 'active-tab');
-      renderProducts();
-    }
-
-    function renderProducts() {
-      const list = document.getElementById('productList');
-      const filtered = currentFilter === 'all' ? products : products.filter(p => p.type === currentFilter);
-      list.innerHTML = filtered.map(p => `
-        <div class="card shadow-sm border">
-          <div class="card-body py-2 px-3">
-            <div class="row align-items-center g-2">
-
-              <!-- Image -->
-              <div class="col-auto">
-                <img src="${p.image}" alt="${p.name}" width="56" height="56" class="rounded">
-              </div>
-
-              <!-- Name -->
-              <div class="col">
-                <span class="fw-medium">${p.name}</span>
-                <span class="badge bg-secondary ms-2 text-capitalize small">${p.type === 'electronics' ? 'Electrónica' : 'Ropa'}</span>
-              </div>
-
-              <!-- isActive -->
-              <div class="col-auto text-center">
-                <span class="badge ${p.isActive ? 'bg-success' : 'bg-danger'}">
-                  ${p.isActive ? 'Activo' : 'Inactivo'}
-                </span>
-              </div>
-
-              <!-- Price -->
-              <div class="col-auto text-end fw-semibold" style="min-width:80px">
-                $${p.price.toFixed(2)}
-              </div>
-
-              <!-- Actions -->
-              <div class="col-auto d-flex gap-2">
-                <button class="btn btn-outline-primary btn-sm" onclick="editProduct(${p.id})">Modificar</button>
-                <button class="btn btn-outline-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-
-    function editProduct(id) {
-      const p = products.find(p => p.id === id);
-      alert(`Modificar: ${p.name}`);
-    }
-
-    function deleteProduct(id) {
-      const idx = products.findIndex(p => p.id === id);
-      if (confirm(`¿Eliminar "${products[idx].name}"?`)) {
-        products.splice(idx, 1);
-        renderProducts();
-      }
-    }
-
-    renderProducts();
-  </script>
+  <script type="module" src="../js/dashboard.js"></script>
 </body>
 </html>

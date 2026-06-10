@@ -111,7 +111,7 @@ function goToCart(e) {
 
 function goToProduct(id) {
   localStorage.setItem('selectedProductId', id);
-  window.location.href = "detalle.html"
+  window.location.href = `detalle.html?id=${id}`;
 }
 
 function goToIndex(e) {
