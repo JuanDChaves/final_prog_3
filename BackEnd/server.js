@@ -45,6 +45,6 @@ app.use('/images', express.static('public/images'));
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
 
-sequelize.sync({ force: false })
+sequelize.sync({ alter: true })
     .then(() => console.log("Tables Synced"))
     .catch(err => console.log("Error", err));

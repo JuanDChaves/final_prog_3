@@ -37,9 +37,9 @@ window.goToPage = goToPage;
 function filterProducts(type, btn) {
   currentFilter = type;
   currentPage = 1;
-  document.querySelectorAll('.d-flex.gap-2.mb-4 .btn').forEach(b => {
-    b.classList.remove('btn-primary');
-    b.classList.add('btn-outline-primary');
+  document.querySelectorAll('.d-flex.gap-2.mb-4 .btn').forEach(button => {
+    button.classList.remove('btn-primary');
+    button.classList.add('btn-outline-primary');
   });
   btn.classList.remove('btn-outline-primary');
   btn.classList.add('btn-primary');
@@ -47,7 +47,7 @@ function filterProducts(type, btn) {
 }
 
 function getFiltered() {
-  return currentFilter === 'all' ? products : products.filter(p => p.type === currentFilter);
+  return currentFilter === 'all' ? products : products.filter(product => product.type === currentFilter);
 }
 
 function render() {
@@ -56,33 +56,33 @@ function render() {
   const start = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const pageItems = filtered.slice(start, start + PRODUCTS_PER_PAGE);
 
-  document.getElementById('productList').innerHTML = pageItems.map(p => `
+  document.getElementById('productList').innerHTML = pageItems.map(product => `
     <div class="card shadow-sm border">
       <div class="card-body py-2 px-3">
         <div class="row align-items-center g-2">
 
           <div class="col-auto">
-            <img src="${p.image}" alt="${p.name}" width="56" height="56" class="rounded" style="object-fit:cover;">
+            <img src="${product.image}" alt="${product.name}" width="56" height="56" class="rounded" style="object-fit:cover;">
           </div>
 
           <div class="col">
-            <span class="fw-medium">${p.name}</span>
-            <span class="badge bg-secondary ms-2 text-capitalize small">${p.type}</span>
+            <span class="fw-medium">${product.name}</span>
+            <span class="badge bg-secondary ms-2 text-capitalize small">${product.type}</span>
           </div>
 
           <div class="col-auto">
-            <span class="badge ${p.active ? 'bg-success' : 'bg-danger'}">
-              ${p.active ? 'Activo' : 'Inactivo'}
+            <span class="badge ${product.active ? 'bg-success' : 'bg-danger'}">
+              ${product.active ? 'Activo' : 'Inactivo'}
             </span>
           </div>
 
           <div class="col-auto fw-semibold" style="min-width:80px; text-align:right">
-            $${p.price.toFixed(2)}
+            $${product.price.toFixed(2)}
           </div>
 
           <div class="col-auto d-flex gap-2">
-            <button class="btn btn-outline-primary btn-sm" onclick="editProduct(${p.id})">Modificar</button>
-            <button class="btn btn-outline-danger btn-sm" onclick="deleteProduct(${p.id})">Eliminar</button>
+            <button class="btn btn-outline-primary btn-sm" onclick="editProduct(${product.id})">Modificar</button>
+            <button class="btn btn-outline-danger btn-sm" onclick="deleteProduct(${product.id})">Eliminar</button>
           </div>
 
         </div>
@@ -119,7 +119,7 @@ function goToPage(page) {
 
 function editProduct(id) {
   localStorage.setItem('editProductId', id);
-  window.location.href = 'modificar.html';
+  window.location.href = 'alta.html';
 }
 
 function deleteProduct(id) {

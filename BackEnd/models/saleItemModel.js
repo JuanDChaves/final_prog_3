@@ -10,12 +10,12 @@ const SaleItem = sequelize.define('SaleItem', {
   id_sale: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: { model: 'Sale', key: 'id' }
+    references: { model: 'Sales', key: 'id' }
   },
   id_producto: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    references: { model: 'Product', key: 'id' }
+    references: { model: 'Products', key: 'id' }
   },
   quantity: {
     type: DataTypes.INTEGER,

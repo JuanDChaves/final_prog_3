@@ -3,6 +3,7 @@ import api from './app.js';
 const html = document.documentElement;
 let products = [];
 let cart = [];
+let total_price;
 
 document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("ticketBtn").addEventListener("click", goToTicket);
@@ -33,7 +34,7 @@ function changeCartQty(id, delta) {
   item.quantity += delta;
 
   if(item.quantity < 1) {
-    cart = cart.filter(i => i.id !== id);
+    cart = cart.filter(item => item.id !== id);
   }
 
   localStorage.setItem('cart', JSON.stringify(cart));
@@ -64,10 +65,11 @@ function render() {
   let total = 0;
 
   cartList.innerHTML = cart.map(item => {
-    const product = products.find(p => p.id === item.id);
+    const product = products.find(product => product.id === item.id);
     if (!product) return '';
     const subtotal = product.price * item.quantity;
     total += subtotal;
+    total_price = total.toFixed(2);
 
     return `
       <div class="card shadow-sm border">
@@ -104,6 +106,33 @@ function render() {
   document.getElementById('cartTotal').textContent = `$${total.toFixed(2)}`;
 }
 
+window.createNewSale = createNewSale;
+window.createNewSaleItem = createNewSaleItem;
+
+async function createNewSale() {
+  const sale = {
+    total_price:  total_price,
+    status:  'completed',
+  }
+  const response = await api.createSale(sale)
+  const saleId = response.data.id
+  await createNewSaleItem(saleId);
+}
+
+async function createNewSaleItem(saleId) {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  for(const item of cart) {
+    const cartProduct = await api.getProduct(item.id);
+    const saleItem = {
+      id_sale: saleId,
+      id_producto: cartProduct.data.id,
+      quantity: item.quantity,
+      unit_price: cartProduct.data.price 
+    };
+    await api.createSaleItem(saleItem);
+  }
+}
 
 function goToTicket(e) {
   e.preventDefault();
@@ -112,8 +141,11 @@ function goToTicket(e) {
     '¿Estás seguro que querés finalizar la compra?',
     'Confirmar',
     'primary',
-     () => window.location.href = "ticket.html"
-  );
+    async () =>  {
+      await createNewSale(),
+      window.location.href = "ticket.html"
+    }
+ );
 }
 
 function showConfirm(title, message, btnLabel, btnType, onConfirm) {

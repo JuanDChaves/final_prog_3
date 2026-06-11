@@ -11,11 +11,11 @@ const Survey = sequelize.define('Survey', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  comment: {
+  comments: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  new_products: {
+  recommend: {
     type: DataTypes.STRING
   },
   appscore: {

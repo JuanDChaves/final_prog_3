@@ -2,9 +2,9 @@ const Sale = require('../models/saleModel.js');
 
 const createSale = async (req, res) => {
     try {
-      await Sale.create(req.body);
+      const newSale = await Sale.create(req.body);
       console.log("venta creado")
-      res.json("venta creado");
+      res.json(newSale);
    } catch (error) {
        console.log("error", error);
    }

@@ -3,16 +3,40 @@ import api from './app.js';
 const html = document.documentElement;
 
 document.addEventListener("DOMContentLoaded", () => {
+    const submitButton = document.getElementById("submitBtn");
+
     document.getElementById("goBackBtn").addEventListener("click", goBack);
     document.getElementById("cancelBtn").addEventListener("click", goBack);
     document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
     document.getElementById("themeToggle").addEventListener("click", toggleTheme);
-    document.getElementById("submitBtn").addEventListener("click", submitProduct);
     document.getElementById("imageInput").addEventListener("change", previewImage);
 
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme)
+
+    if(localStorage.getItem('editProductId')) {
+      submitButton.textContent = "Guardar cambios";
+      submitButton.addEventListener("click", updateProduct);
+      fillForm(localStorage.getItem('editProductId'));
+    }else {
+      submitButton.addEventListener("click", submitProduct);
+    }
   });
+
+async function fillForm(id) {
+  const product = await api.getProduct(id);
+  document.getElementById('name').value = product.data.name;
+  document.getElementById('type').value = product.data.type;
+  document.getElementById('price').value = product.data.price;
+  document.getElementById('active').checked = product.data.active;
+  document.getElementById('description').value = product.data.description;
+  document.getElementById('height').value = product.data.height;
+  document.getElementById('width').value = product.data.width;
+  document.getElementById('weight').value = product.data.weight;
+  document.getElementById('imageInput').dataset.url = product.data.image;
+  document.getElementById('imagePreview').src = product.data.image;
+  document.getElementById('previewContainer').style.display = 'block';
+}
 
 function previewImage() {
   const file = document.getElementById('imageInput').files[0];
@@ -54,7 +78,7 @@ function validate() {
     valid = false;
   }
 
-  if (!imageInput.files[0]) {
+  if (!imageInput.files[0] && !imageInput.dataset.url) {
     imageInput.classList.add('is-invalid');
     document.getElementById('imageError').textContent = 'Seleccioná una imagen';
     valid = false;
@@ -69,15 +93,15 @@ async function submitProduct() {
   const file = document.getElementById('imageInput').files[0];
   
   const product = {
-    name:        document.getElementById('name').value.trim(),
-    type:        document.getElementById('type').value,
-    active:      document.getElementById('active').checked,
-    price:       parseFloat(document.getElementById('price').value),
+    name: document.getElementById('name').value.trim(),
+    type: document.getElementById('type').value,
+    active: document.getElementById('active').checked,
+    price: parseFloat(document.getElementById('price').value),
     description: document.getElementById('description').value.trim(),
-    height:      parseFloat(document.getElementById('height').value),
-    width:       parseFloat(document.getElementById('width').value),
-    weight:      parseFloat(document.getElementById('weight').value),
-    image:       document.getElementById('imageInput').dataset.url
+    height: parseFloat(document.getElementById('height').value),
+    width: parseFloat(document.getElementById('width').value),
+    weight: parseFloat(document.getElementById('weight').value),
+    image: document.getElementById('imageInput').dataset.url
   };
 
   showConfirm(
@@ -93,6 +117,45 @@ async function submitProduct() {
         setTimeout(() => window.location.href = 'dashboard.html', 3000);
       } catch (error) {
         showAlert('error', 'Error', 'No se pudo guardar el producto.');
+      }
+    }
+  );
+}
+
+async function updateProduct() {
+  if (!validate()) return;
+
+  const id = localStorage.getItem('editProductId');
+  const file = document.getElementById('imageInput').files[0];
+  const image = file
+    ? `http://localhost:3000/images/${file.name}`
+    : document.getElementById('imageInput').dataset.url;
+
+  const product = {
+    name: document.getElementById('name').value.trim(),
+    type: document.getElementById('type').value,
+    active: document.getElementById('active').checked,
+    price: parseFloat(document.getElementById('price').value),
+    description: document.getElementById('description').value.trim(),
+    height: parseFloat(document.getElementById('height').value) || null,
+    width: parseFloat(document.getElementById('width').value) || null,
+    weight: parseFloat(document.getElementById('weight').value) || null,
+    image,
+  };
+
+  showConfirm(
+    '¿Guardar cambios?',
+    `¿Confirmar la modificación de "${product.name}"?`,
+    'Guardar',
+    'primary',
+    async () => {
+      try {
+        await api.updateProduct(id, product);
+        localStorage.removeItem('editProductId');
+        showAlert('success', 'Producto actualizado', `"${product.name}" fue modificado correctamente.`);
+        setTimeout(() => window.location.href = 'dashboard.html', 1500);
+      } catch (error) {
+        showAlert('error', 'Error', 'No se pudo actualizar el producto.');
       }
     }
   );
@@ -136,12 +199,13 @@ function showAlert(type, title, message) {
 
 function goBack(e) {
   e.preventDefault();
-  console.log("to to dashboard")
+  if(localStorage.getItem('editProductId')) {
+    localStorage.removeItem('editProductId');
+  }
   window.location.href = "dashboard.html"
 }
 function goToIndex(e) {
   e.preventDefault();
-  console.log("go to index")
   window.location.href = "index.html"
 }
 
