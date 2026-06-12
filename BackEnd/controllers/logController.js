@@ -21,5 +21,5 @@ const getLogs = async (req, res) => {
 
 module.exports = {
     createLog,
-    getLogs,
+    getLogs
 };

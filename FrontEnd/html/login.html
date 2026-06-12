@@ -37,13 +37,17 @@
             <h2 class="fs-4 fw-medium mb-4">Iniciar sesión</h2>
  
             <form id="loginForm">
+              <div class="alert alert-danger d-none" id="loginError" role="alert"></div>
+
               <div class="mb-3">
                 <label class="form-label small fw-medium" for="username">Usuario:</label>
                 <input type="text" class="form-control" id="username" placeholder="usuario" required>
+                <div class="invalid-feedback" id="usernameError"></div>
               </div>
               <div class="mb-3">
                 <label class="form-label small fw-medium" for="password">Contraseña:</label>
                 <input type="password" class="form-control" id="password" placeholder="**********" required>
+                <div class="invalid-feedback" id="passwordError"></div>
               </div>
               <button type="button" class="btn btn-primary w-50 mt-1" id="loginBtn">
                 Entrar

@@ -17,18 +17,50 @@ let password = ""
 
 async function login(e) {
   e.preventDefault();
-  username = document.getElementById("username").value;
-  password = document.getElementById("password").value;
+
+  const usernameInput = document.getElementById("username");
+  const passwordInput = document.getElementById("password");
+  const errorBox = document.getElementById("loginError");
+
+  // Clear previous errors
+  [usernameInput, passwordInput].forEach(el => el.classList.remove('is-invalid'));
+  errorBox.classList.add('d-none');
+  errorBox.textContent = '';
+
+  const username = usernameInput.value;
+  const password = passwordInput.value;
+
   try {
     const response = await api.login(username, password);
-    console.log(response.data)
-    window.location.href = "dashboard.html"
-    username = "";
-    password = "";
-  } catch(e) {
-    console.log("ERROR", e.response?.data)
+    console.log(response.data);
+    window.location.href = "dashboard.html";
+
+  } catch (e) {
+    const message = e.response?.data?.error || 'Error inesperado';
+
+    switch (e.response?.status) {
+      case 400: // Ya hay una sesión activa
+        errorBox.textContent = message;
+        errorBox.classList.remove('d-none');
+        break;
+
+      case 404: // Usuario no encontrado
+        usernameInput.classList.add('is-invalid');
+        document.getElementById('usernameError').textContent = message;
+        break;
+
+      case 401: // Contraseña incorrecta
+        passwordInput.classList.add('is-invalid');
+        document.getElementById('passwordError').textContent = message;
+        break;
+
+      default: // 500 or network error
+        errorBox.textContent = message;
+        errorBox.classList.remove('d-none');
+    }
   }
 }
+
 function goToIndex(e) {
   e.preventDefault();
   console.log("go to index")

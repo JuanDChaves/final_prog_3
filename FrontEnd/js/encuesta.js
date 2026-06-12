@@ -55,7 +55,7 @@ function submitSurvey() {
   console.log('Encuesta enviada:', survey);
   api.createSurvey(survey);
   showAlert('success', 'Encuesta enviada', '¡Gracias por tu opinión!');
-  //setTimeout(() => window.location.href = 'index.html', 2000);
+  setTimeout(() => window.location.href = 'index.html', 2000);
 }
 
 function showAlert(type, title, message) {

@@ -7,6 +7,11 @@ const Survey = sequelize.define('Survey', {
     primaryKey: true,
     autoIncrement: true
   },
+  id_sale: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: { model: 'Sales', key: 'id'}
+  },
   email: {
     type: DataTypes.STRING,
     allowNull: false

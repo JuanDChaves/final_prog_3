@@ -7,6 +7,7 @@ const {
     loginAdmin,
     logoutAdmin,
     createAdmin,
+    getCurrentAdmin,
     getAdmins,
     getAdminById,
     updateAdmin,
@@ -16,6 +17,7 @@ const {
 
 router.post("/login", loginAdmin);
 router.post("/register", hashPassword, createAdmin); 
+router.get("/me", getCurrentAdmin);
 
 router.get("/", auth, getAdmins); 
 router.get("/:id", auth, getAdminById); 

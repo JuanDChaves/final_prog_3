@@ -16,6 +16,7 @@
       </span>
 
       <div class="d-flex align-items-center gap-2">
+        <span class="navbar-text text-white" id="adminName"></span>
         <ul class="nav justify-content-center gap-3 pt-2 pb-2 fs-5">
            <li class="nav-item">
             <button class="nav-link text-bg-primary" id="goBackBtn">Atrás</button>
@@ -42,14 +43,12 @@
 
           <div class="row g-3">
 
-            <!-- Name -->
             <div class="col-12 col-md-6">
               <label class="form-label small fw-medium" for="name">Nombre</label>
               <input type="text" class="form-control" id="name" placeholder="Ej: Guitarra Eléctrica">
               <div class="invalid-feedback" id="nameError"></div>
             </div>
 
-            <!-- Type -->
             <div class="col-12 col-md-6">
               <label class="form-label small fw-medium" for="type">Tipo</label>
               <select class="form-select" id="type">
@@ -60,7 +59,6 @@
               <div class="invalid-feedback" id="typeError"></div>
             </div>
 
-            <!-- Price -->
             <div class="col-12 col-md-6">
               <label class="form-label small fw-medium" for="price">Precio</label>
               <div class="input-group">
@@ -70,7 +68,6 @@
               <div class="invalid-feedback" id="priceError"></div>
             </div>
 
-            <!-- Active -->
             <div class="col-12 col-md-6 d-flex align-items-end pb-1">
               <div class="form-check form-switch">
                 <input class="form-check-input" type="checkbox" id="active" checked>
@@ -78,13 +75,11 @@
               </div>
             </div>
 
-            <!-- Description -->
             <div class="col-12">
               <label class="form-label small fw-medium" for="description">Descripción</label>
               <textarea class="form-control" id="description" rows="3" placeholder="Descripción del producto..."></textarea>
             </div>
 
-            <!-- Dimensions -->
             <div class="col-12 col-md-4">
               <label class="form-label small fw-medium" for="height">Alto (cm)</label>
               <input type="number" class="form-control" id="height" placeholder="0" min="0" step="0.1">
@@ -100,14 +95,12 @@
               <input type="number" class="form-control" id="weight" placeholder="0.0" min="0" step="0.01">
             </div>
 
-            <!-- Image -->
             <div class="col-12">
               <label class="form-label small fw-medium" for="imageInput">Imagen</label>
               <input type="file" class="form-control" id="imageInput" accept="image/*">
               <div class="invalid-feedback" id="imageError"></div>
             </div>
 
-            <!-- Image preview -->
             <div class="col-12" id="previewContainer" style="display:none;">
               <img id="imagePreview" src="" alt="Preview" class="rounded border" style="max-height: 100px; object-fit: cover;">
             </div>
@@ -133,7 +126,6 @@
     </div>
   </nav>
 
-  <!-- Confirm modal -->
     <div class="modal fade" id="confirmModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

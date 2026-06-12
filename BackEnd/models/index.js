@@ -5,11 +5,9 @@ const Admin = require('./adminModel');
 const Survey = require('./surveyModel'); 
 const Log = require('./logModel');
 
-// A Sale has many SaleItems, a SaleItem belongs to one Sale
 Sale.hasMany(SaleItem, { foreignKey: 'id_sale', onDelete: 'CASCADE' });
 SaleItem.belongsTo(Sale, { foreignKey: 'id_sale' });
 
-// A Product has many SaleItems, a SaleItem belongs to one Product
 Product.hasMany(SaleItem, { foreignKey: 'id_product', onDelete: 'RESTRICT' });
 SaleItem.belongsTo(Product, { foreignKey: 'id_product' });
 

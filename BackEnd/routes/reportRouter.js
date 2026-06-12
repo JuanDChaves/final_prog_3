@@ -7,7 +7,9 @@ const {
     getMostFrequentProductQuantity,
     getAllSales,
     getMostExpensiveSales,
-    getMostLikedProducts
+    getMostLikedProducts,
+    getLogsByRange,
+    getMostActiveAdmins
 } = require('../controllers/reportController.js');
 
 router.get('/most-purchased', getMostPurchased);
@@ -16,11 +18,7 @@ router.get('/most-frequent-quantity', getMostFrequentProductQuantity);
 router.get('/all-sales', getAllSales);
 router.get('/most-expensive-sales', getMostExpensiveSales);
 router.get('/most-liked', getMostLikedProducts);
-
-/*
-getTopAdminLogs: () => api.get('reports/top-logs'), //
-
-  getLogsByRange: (from, to) => api.get(`/reports?from=${from}&to=${to}`) //
-*/
+router.get('/logs', getLogsByRange);
+router.get('/most-active', getMostActiveAdmins);
 
 module.exports = router;

@@ -45,6 +45,14 @@ const createAdmin = async (req, res) => {
    }
 };
 
+const getCurrentAdmin = (req, res) => {
+  if (!req.session.admin) {
+    return res.status(401).json({ error: 'No hay sesión activa' });
+  }
+  res.json(req.session.admin);
+};
+
+
 const getAdmins = async (req, res) => {
   try {
     const admins = await Admin.findAll({
@@ -97,6 +105,7 @@ module.exports = {
     loginAdmin,
     logoutAdmin,
     createAdmin,
+    getCurrentAdmin,
     getAdmins,
     getAdminById,
     updateAdmin,

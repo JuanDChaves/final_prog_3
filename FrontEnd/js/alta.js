@@ -2,7 +2,7 @@ import api from './app.js';
 
 const html = document.documentElement;
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const submitButton = document.getElementById("submitBtn");
 
     document.getElementById("goBackBtn").addEventListener("click", goBack);
@@ -13,6 +13,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme)
+
+    try {
+      const response = await api.getCurrentAdmin();
+      document.getElementById('adminName').textContent = `Admin: ${response.data.username}`;
+    } catch {
+      window.location.href = 'login.html'; 
+    }
 
     if(localStorage.getItem('editProductId')) {
       submitButton.textContent = "Guardar cambios";
@@ -56,9 +63,10 @@ function validate() {
   const name = document.getElementById('name');
   const type = document.getElementById('type');
   const price = document.getElementById('price');
+  const description = document.getElementById('description');
   const imageInput = document.getElementById('imageInput');
 
-  [name, type, price, imageInput].forEach(el => el.classList.remove('is-invalid'));
+  [name, type, price, description, imageInput].forEach(el => el.classList.remove('is-invalid'));
 
   if (!name.value.trim()) {
     name.classList.add('is-invalid');
@@ -69,6 +77,12 @@ function validate() {
   if (!type.value) {
     type.classList.add('is-invalid');
     document.getElementById('typeError').textContent = 'Seleccioná un tipo';
+    valid = false;
+  }
+
+  if (!description.value.trim()) {
+    description.classList.add('is-invalid');
+    document.getElementById('descriptionError').textContent = 'La descripción es obligatoria';
     valid = false;
   }
 
@@ -83,6 +97,17 @@ function validate() {
     document.getElementById('imageError').textContent = 'Seleccioná una imagen';
     valid = false;
   }
+
+  ['height', 'width', 'weight'].forEach(id => {
+    const input = document.getElementById(id);
+    input.classList.remove('is-invalid');
+    const val = parseFloat(input.value);
+    if (isNaN(val) || val < 0) {
+      input.classList.add('is-invalid');
+      document.getElementById(`${id}Error`).textContent = 'Ingresá un valor válido';
+      valid = false;
+    }
+  });
 
   return valid;
 }
@@ -204,9 +229,22 @@ function goBack(e) {
   }
   window.location.href = "dashboard.html"
 }
-function goToIndex(e) {
-  e.preventDefault();
-  window.location.href = "index.html"
+
+async function goToIndex() {
+  showConfirm(
+    'Cerrar sesión',
+    '¿Estás seguro que querés cerrar sesión?',
+    'Cerrar sesión',
+    'danger',
+    async () => {
+      try {
+        await api.logout();
+        window.location.href = "index.html";
+      } catch (error) {
+        console.log("Error al salir", error);
+      }
+    }
+  )
 }
 
 function toggleTheme() {

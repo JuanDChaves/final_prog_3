@@ -16,6 +16,13 @@ document.addEventListener("DOMContentLoaded", async () => {
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme);
 
+    try {
+      const response = await api.getCurrentAdmin();
+      document.getElementById('adminName').textContent = `Admin: ${response.data.username}`;
+    } catch {
+      window.location.href = 'login.html'; 
+    }
+
     await loadProducts();
 });
 
@@ -82,7 +89,7 @@ function render() {
 
           <div class="col-auto d-flex gap-2">
             <button class="btn btn-outline-primary btn-sm" onclick="editProduct(${product.id})">Modificar</button>
-            <button class="btn btn-outline-danger btn-sm" onclick="deleteProduct(${product.id})">Eliminar</button>
+            <button class="btn btn-outline-${product.active ? 'danger' : 'success'} btn-sm" onclick="deleteProduct(${product.id})">${product.active ? 'Desactivar' : 'Activar'}</button>
           </div>
 
         </div>
@@ -124,18 +131,21 @@ function editProduct(id) {
 
 function deleteProduct(id) {
   const product = products.find(p => p.id === id);
+  const willActivate = !product.active;
+
   showConfirm(
-    'Eliminar producto',
-    `¿Estás seguro que querés eliminar "${product.name}"?`,
-    'Eliminar',
-    'danger',
+    willActivate ? 'Activar producto' : 'Desactivar producto',
+    `¿Estás seguro que querés ${willActivate ? 'activar' : 'desactivar'} "${product.name}"?`,
+    willActivate ? 'Activar' : 'Desactivar',
+    willActivate ? 'success': 'danger',
     async () => {
       try {
-        await api.deleteProduct(id);
-        products = products.filter(p => p.id !== id);
+        await api.updateProduct(id, { active: willActivate });
+        products.active = willActivate;  
         render();
+        window.location.href = "dashboard.html";
       } catch (error) {
-        console.log("Error al eliminar", error);
+        console.log("Error al actualizar el producto", error);
       }
     }
   );
@@ -188,8 +198,6 @@ async function goToIndex() {
       }
     }
   )
-  console.log("go to index")
-  window.location.href = "index.html"
 }
 
 function toggleTheme() {

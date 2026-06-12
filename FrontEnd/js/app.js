@@ -11,6 +11,8 @@ export default {
 
   logout: () => api.post('admins/logout'),
 
+  getCurrentAdmin: () => api.get('/admins/me'),
+
   getProducts: () => api.get('/products'),
 
   getProduct: (id) => api.get(`/products/${id}`),
@@ -33,8 +35,6 @@ export default {
 
   createSurvey: (data) => api.post('/surveys', data),
 
-  getTopAdminLogs: () => api.get('reports/top-logs'), //
-
   getMostPurchasedProducts: () => api.get('reports/most-purchased'),  
 
   getMostExpensiveProducts: () => api.get('reports/most-expensive-products'), 
@@ -47,5 +47,7 @@ export default {
 
   getMostFrequentProductQuantity: () => api.get('reports/most-frequent-quantity'), 
 
-  getLogsByRange: (from, to) => api.get(`/reports?from=${from}&to=${to}`) //
+  getLogsByRange: (from, to) => api.get('reports/logs', {params: { from, to }}),
+
+  getMostActiveAdmins: () => api.get('reports/most-active')
 }

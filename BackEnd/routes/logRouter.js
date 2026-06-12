@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
     createLog,
-    getLogs,
+    getLogs
 } = require("../controllers/saleItemController.js");
 
 router.get("/", getLogs); 

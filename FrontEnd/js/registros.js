@@ -8,10 +8,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
     document.getElementById("themeToggle").addEventListener("click", toggleTheme);
     document.getElementById("exportBtn").addEventListener("click", exportExcel);
-    document.getElementById("filterLogsBtn").addEventListener("click", filterLogs);
+    document.getElementById("filterLogsBtn").addEventListener("click", loadAdminLogs);
 
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme)
+
+    try {
+      const response = await api.getCurrentAdmin();
+      document.getElementById('adminName').textContent = `Admin: ${response.data.username}`;
+    } catch {
+      window.location.href = 'login.html'; 
+    }
+
+    document.getElementById('prevLogsPage').addEventListener('click', () => {
+      if (logsCurrentPage > 1) {
+        logsCurrentPage--;
+        renderLogsPage();
+      }
+    });
+
+    document.getElementById('nextLogsPage').addEventListener('click', () => {
+      const totalPages = Math.ceil(
+        allData.logsPorFecha.length / logsPerPage
+      );
+
+      if (logsCurrentPage < totalPages) {
+        logsCurrentPage++;
+        renderLogsPage();
+      }
+    });
 
     await loadAll();
   });
@@ -33,7 +58,8 @@ async function loadAll() {
     loadProductsMejorRecibidos(),
     loadProductQuantityMasFrecuente(),
     loadSalesMasCaras(),
-    //loadAdminLogs()
+    loadAdminLogs(),
+    loadMostActiveAdmins()
   ]);
 }
 
@@ -193,6 +219,45 @@ async function loadSalesMasCaras() {
   }
 }
 
+let logsCurrentPage = 1;
+const logsPerPage = 10;
+
+async function loadAdminLogs() {
+  const from = document.getElementById('dateFrom').value;
+  const to = document.getElementById('dateTo').value;
+
+  try {
+    const response = await api.getLogsByRange(from, to);
+    const data = response.data;
+    allData.logsPorFecha = data;
+
+    logsCurrentPage = 1;
+
+    renderLogsPage();
+
+  } catch {
+    document.getElementById('logsPorFechaList').innerHTML = errorMsg();
+  }
+}
+
+function renderLogsPage() {
+  const data = allData.logsPorFecha || [];
+
+  const start = (logsCurrentPage - 1) * logsPerPage;
+  const end = start + logsPerPage;
+
+  const pageData = data.slice(start, end);
+
+  document.getElementById('logsPorFechaList').innerHTML = renderTable(
+    ['#', 'Admin', 'Fecha'],
+    pageData.map((log, index) => [
+      start + index + 1,
+      log.Admin.username,
+      formatDate(log.createdAt)
+    ])
+  );
+}
+
 function renderTable (headers, rows) {
   if(!rows || rows.length === 0) return '<p class="text-muted">Sin datos disponibles.</p>';
   return `
@@ -223,6 +288,25 @@ async function filterLogs() {
       data.map((l, i) => [i + 1, l.admin, l.action, formatDate(l.createdAt)])
     );
   } catch { document.getElementById('logsPorFechaList').innerHTML = errorMsg(); }
+}
+
+async function loadMostActiveAdmins() {
+  try {
+    const response = await api.getMostActiveAdmins();
+
+    document.getElementById('adminsLogsList').innerHTML = renderTable(
+      ['#', 'Admin', 'Registros'],
+      response.data.map((admin, index) => [
+        index + 1,
+        admin.Admin.username,
+        admin.total_logs
+      ])
+    );
+
+  } catch (e) {
+    console.log(e)
+    document.getElementById('adminsLogsList').innerHTML = errorMsg();
+  }
 }
 
 function exportExcel() {
@@ -265,10 +349,35 @@ function goBack(e) {
   console.log("to to dashboard")
   window.location.href = "dashboard.html"
 }
-function goToIndex(e) {
-  e.preventDefault();
-  console.log("go to index")
-  window.location.href = "index.html"
+
+async function goToIndex() {
+  showConfirm(
+    'Cerrar sesión',
+    '¿Estás seguro que querés cerrar sesión?',
+    'Cerrar sesión',
+    'danger',
+    async () => {
+      try {
+        await api.logout();
+        window.location.href = "index.html";
+      } catch (error) {
+        console.log("Error al salir", error);
+      }
+    }
+  )
+}
+
+function showConfirm(title, message, btnLabel, btnType, onConfirm) {
+  document.getElementById('confirmModalTitle').textContent = title;
+  document.getElementById('confirmModalBody').textContent = message;
+  const btn = document.getElementById('confirmModalBtn');
+  btn.className = `btn btn-${btnType}`;
+  btn.textContent = btnLabel;
+  btn.onclick = () => {
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).hide();
+    onConfirm();
+  };
+  bootstrap.Modal.getOrCreateInstance(document.getElementById('confirmModal')).show();
 }
 
 function toggleTheme() {
