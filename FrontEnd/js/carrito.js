@@ -121,12 +121,13 @@ async function createNewSale() {
 
 async function createNewSaleItem(saleId) {
   const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  console.log("en sale item", cart)
 
   for(const item of cart) {
     const cartProduct = await api.getProduct(item.id);
     const saleItem = {
       id_sale: saleId,
-      id_producto: cartProduct.data.id,
+      id_product: cartProduct.data.id,
       quantity: item.quantity,
       unit_price: cartProduct.data.price 
     };

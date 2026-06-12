@@ -1,17 +1,17 @@
-const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const { DataTypes } = require('sequelize');
 
-const Carts = sequelize.define('Carts', {
+const Log = sequelize.define('Log', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     autoIncrement: true
   },
-  quantity: {
+  id_admin: {
     type: DataTypes.INTEGER,
     allowNull: false,
-    defaultValue: 1
+    references: { model: 'Admins', key: 'id' }
   }
 });
 
-module.exports = Carts;
+module.exports = Log;

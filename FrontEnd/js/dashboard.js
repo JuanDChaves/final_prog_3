@@ -170,8 +170,24 @@ function goToAssistance(e) {
   console.log("to to assistance")
   window.location.href = "asistencia.html"
 }
-function goToIndex(e) {
-  e.preventDefault();
+
+window.goToIndex = goToIndex;
+
+async function goToIndex() {
+  showConfirm(
+    'Cerrar sesión',
+    '¿Estás seguro que querés cerrar sesión?',
+    'Cerrar sesión',
+    'danger',
+    async () => {
+      try {
+        await api.logout();
+        window.location.href = "index.html";
+      } catch (error) {
+        console.log("Error al salir", error);
+      }
+    }
+  )
   console.log("go to index")
   window.location.href = "index.html"
 }

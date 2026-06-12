@@ -1,5 +1,6 @@
 const Admin = require('../models/adminModel.js');
 const bcrypt = require('bcrypt');
+const Log = require('../models/logModel.js');
 
 const loginAdmin = async (req, res) => {
   try {
@@ -16,6 +17,8 @@ const loginAdmin = async (req, res) => {
 
     req.session.admin = {id: admin.id, username: admin.username};
 
+    await Log.create({ id_admin: admin.id });
+
     res.json({ message: "Login exitoso"});
   } catch (err) {
     res.status(500).json({error: err.message});
@@ -23,8 +26,13 @@ const loginAdmin = async (req, res) => {
 }
 
 const logoutAdmin = (req, res) => {
-  req.session.destroy();
-  res.json({ message: 'Logged out' });
+  req.session.destroy((err) =>  {
+    if(err) {
+      return res.status(500).json({ error: 'No se pudo cerrar sesion' });
+    }
+    res.clearCookie('connect.sid');
+    res.json({ message: 'Logged out' });
+  });
 };
 
 const createAdmin = async (req, res) => {

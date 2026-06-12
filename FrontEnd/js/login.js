@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("goToIndexBtn").addEventListener("click", goToIndex);
     document.getElementById("autoCompleteBtn").addEventListener("click", autoComplete);
     document.getElementById("themeToggle").addEventListener("click", toggleTheme)
-    //localStorage.clear(); // Limpiamos el local storage de cualquier interaccion anterior
 
     const savedTheme = localStorage.getItem('theme') || 'light';
     applyTheme(savedTheme)
@@ -27,9 +26,8 @@ async function login(e) {
     username = "";
     password = "";
   } catch(e) {
-    console.log("ERRORCITO", e.response?.data)
+    console.log("ERROR", e.response?.data)
   }
-  console.log("login")
 }
 function goToIndex(e) {
   e.preventDefault();
@@ -54,8 +52,30 @@ function applyTheme(theme) {
   document.getElementById('themeToggle').textContent = theme === 'light' ? '🌙' : '☀️';
 }
 
-//{
-//  "username": "juan",
-//  "email": "juan@mail.com",
-//  "password": "mypass"
-//}
+/*
+{
+  "username": "juan",
+  "email": "juan@mail.com",
+  "password": "mypass"
+},
+{
+  "username": "david",
+  "email": "david@mail.com",
+  "password": "mypass"
+},
+{
+  "username": "ivette",
+  "email": "ivette@mail.com",
+  "password": "mypass"
+},
+{
+  "username": "liliana",
+  "email": "liliana@mail.com",
+  "password": "mypass"
+},
+{
+  "username": "carlos",
+  "email": "carlos@mail.com",
+  "password": "mypass"
+}
+*/

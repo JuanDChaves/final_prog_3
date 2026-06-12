@@ -12,7 +12,7 @@ const SaleItem = sequelize.define('SaleItem', {
     allowNull: false,
     references: { model: 'Sales', key: 'id' }
   },
-  id_producto: {
+  id_product: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: { model: 'Products', key: 'id' }

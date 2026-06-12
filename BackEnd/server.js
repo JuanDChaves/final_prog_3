@@ -8,9 +8,9 @@ const session = require('express-session');
 const productsRouter = require('./routes/productRouter.js')
 const adminsRouter = require('./routes/adminRouter.js')
 const salesRouter = require('./routes/saleRouter.js')
-const cartsRouter = require('./routes/cartRouter.js')
 const saleItemsRouter = require('./routes/saleItemRouter.js')
 const surveysRouter = require('./routes/surveyRouter.js')
+const reportsRouter = require('./routes/reportRouter.js')
 
 require("./models/index.js");
 
@@ -36,10 +36,10 @@ app.use(session({
 app.get('/', (req, res) => res.send('Holainas!'));
 app.use('/admins', adminsRouter);
 app.use('/products', productsRouter);
-app.use('/carts', cartsRouter);
 app.use('/sales', salesRouter);
 app.use('/sale-items', saleItemsRouter);
 app.use('/surveys', surveysRouter);
+app.use('/reports', reportsRouter)
 app.use('/images', express.static('public/images'));
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));

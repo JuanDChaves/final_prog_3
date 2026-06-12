@@ -1,9 +1,9 @@
 const Product = require('./productModel');
 const Sale = require('./saleModel');
 const SaleItem = require('./saleItemModel');
-const Cart = require('./cartModel');
 const Admin = require('./adminModel'); 
 const Survey = require('./surveyModel'); 
+const Log = require('./logModel');
 
 // A Sale has many SaleItems, a SaleItem belongs to one Sale
 Sale.hasMany(SaleItem, { foreignKey: 'id_sale', onDelete: 'CASCADE' });
@@ -13,8 +13,11 @@ SaleItem.belongsTo(Sale, { foreignKey: 'id_sale' });
 Product.hasMany(SaleItem, { foreignKey: 'id_product', onDelete: 'RESTRICT' });
 SaleItem.belongsTo(Product, { foreignKey: 'id_product' });
 
-// A Product can be in many Carts, a Cart belongs to one Product
-Product.hasMany(Cart, { foreignKey: 'id_product' });
-Cart.belongsTo(Product, { foreignKey: 'id_product' });
+Sale.hasOne(Survey, { foreignKey: 'id_sale', onDelete: 'RESTRICT' });
+Survey.belongsTo(Sale, { foreignKey: 'id_sale' });
 
-module.exports = { Product, Sale, SaleItem, Cart, Admin, Survey };
+Admin.hasMany(Log, { foreignKey: 'id_admin', onDelete: 'RESTRICT' });
+Log.belongsTo(Admin, { foreignKey: 'id_admin' });
+
+
+module.exports = { Product, Sale, SaleItem, Admin, Survey, Log };
